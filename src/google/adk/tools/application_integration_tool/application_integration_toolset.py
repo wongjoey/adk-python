@@ -83,6 +83,7 @@ class ApplicationIntegrationToolset(BaseToolset):
       self,
       project: str,
       location: str,
+      connection_template_override: Optional[str] = None,
       integration: Optional[str] = None,
       triggers: Optional[List[str]] = None,
       connection: Optional[str] = None,
@@ -129,6 +130,7 @@ class ApplicationIntegrationToolset(BaseToolset):
     super().__init__(tool_filter=tool_filter)
     self.project = project
     self.location = location
+    self._connection_template_override = connection_template_override
     self._integration = integration
     self._triggers = triggers
     self._connection = connection
@@ -142,6 +144,7 @@ class ApplicationIntegrationToolset(BaseToolset):
     integration_client = IntegrationClient(
         project,
         location,
+        connection_template_override,
         integration,
         triggers,
         connection,

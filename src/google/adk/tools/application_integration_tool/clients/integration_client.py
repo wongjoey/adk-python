@@ -38,6 +38,7 @@ class IntegrationClient:
       self,
       project: str,
       location: str,
+      connection_template_override: Optional[str] = None,
       integration: Optional[str] = None,
       triggers: Optional[List[str]] = None,
       connection: Optional[str] = None,
@@ -62,6 +63,7 @@ class IntegrationClient:
     """
     self.project = project
     self.location = location
+    self.connection_template_override = connection_template_override
     self.integration = integration
     self.triggers = triggers
     self.connection = connection
@@ -130,7 +132,7 @@ class IntegrationClient:
         Exception: For any other unexpected errors.
     """
     # Application Integration needs to be provisioned in the same region as connection and an integration with name "ExecuteConnection" and trigger "api_trigger/ExecuteConnection" should be created as per the documentation.
-    integration_name = "ExecuteConnection"
+    integration_name = "ExecuteConnection"  if self.connection_template_override is None else self.connection_template_override
     connections_client = ConnectionsClient(
         self.project,
         self.location,
